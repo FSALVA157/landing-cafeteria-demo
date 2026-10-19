@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@font-face {
+	font-family: "Young Serif";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/young-serif-latin-400-normal.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: "Manrope";
+	font-style: normal;
+	font-weight: 200 800;
+	font-display: swap;
+	src: url("/fonts/manrope-latin-wght-normal.woff2") format("woff2-variations");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+	--font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Young Serif", ui-serif, Georgia, serif;
+
+	/* Sacados de las fotos: bouclé, yeso rosado, terciopelo óxido y madera oscura. */
+	--color-cream: #f5ede3;
+	--color-plaster: #ecd8ca;
+	--color-sand: #d9bba7;
+	--color-cocoa: #3a2118;
+	--color-cocoa-soft: #6b4636;
+	--color-terra: #a4461f;
+	--color-terra-dark: #87381a;
+	--color-night: #2a1710;
+
+	--ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		-webkit-text-size-adjust: 100%;
+	}
+	html.lenis {
+		scroll-behavior: auto;
+	}
+	body {
+		@apply bg-cream font-sans text-cocoa antialiased;
+		font-synthesis: none;
+	}
+	h1,
+	h2,
+	h3 {
+		@apply font-serif font-normal;
+		text-wrap: balance;
+	}
+	p,
+	li,
+	dd {
+		text-wrap: pretty;
+	}
+	[id] {
+		scroll-margin-top: 96px;
+	}
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-terra;
+	}
+	::selection {
+		@apply bg-terra text-cream;
+	}
+}
+
+@utility btn {
+	@apply inline-flex items-center justify-center gap-2 rounded-full px-3 py-2 text-base font-semibold transition-all duration-500 ease-fluid active:scale-[0.98];
+}
+
+@layer components {
+	.btn-primary {
+		@apply btn bg-terra text-cream hover:bg-terra-dark;
+	}
+	.btn-ghost {
+		@apply btn border border-cocoa/25 text-cocoa hover:border-cocoa/60 hover:bg-cocoa/5;
+	}
+	.btn-light {
+		@apply btn bg-cream text-cocoa hover:bg-plaster;
+	}
+	.eyebrow {
+		@apply text-sm font-semibold tracking-wide text-terra-dark uppercase;
+	}
+	.arch {
+		border-radius: 999px 999px 0 0;
+		overflow: hidden;
+	}
+	.hero-heading {
+		background: linear-gradient(90deg, var(--color-cocoa), #7a5646);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+}
+
+/* Revelado al entrar en pantalla. Solo se oculta si hay JS. */
+.js [data-reveal] {
+	opacity: 0;
+	transform: translateY(4rem);
+	filter: blur(12px);
+	transition:
+		opacity 900ms var(--ease-fluid),
+		transform 900ms var(--ease-fluid),
+		filter 900ms var(--ease-fluid);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible {
+	opacity: 1;
+	transform: none;
+	filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	.js [data-reveal] {
+		opacity: 1;
+		transform: none;
+		filter: none;
+		transition: none;
+	}
+	*,
+	*::before,
+	*::after {
+		transition-duration: 1ms !important;
+		animation-duration: 1ms !important;
+	}
+}

@@ -1,0 +1,48 @@
+---
+const lines = ['Un buen café no se bebe con prisa.', 'Se queda contigo toda la mañana.'];
+---
+
+<section aria-label="Nuestra idea" class="px-4 py-24 md:px-8 md:py-24">
+	<p class="mx-auto max-w-[680px] text-center font-serif text-4xl text-cocoa md:text-5xl" data-tagline>
+		{
+			lines.map((line) => (
+				<span class="block">
+					{line.split(' ').map((word) => (
+						<>
+							<span class="tagline-word">{word}</span>{' '}
+						</>
+					))}
+				</span>
+			))
+		}
+	</p>
+</section>
+
+<style>
+	.tagline-word {
+		opacity: 0.3;
+	}
+	:global(html:not(.js)) .tagline-word {
+		opacity: 1;
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap';
+	import { reducedMotion } from '../scripts/motion';
+
+	const tagline = document.querySelector<HTMLElement>('[data-tagline]')!;
+	const words = tagline.querySelectorAll<HTMLElement>('.tagline-word');
+
+	if (reducedMotion) {
+		gsap.set(words, { opacity: 1 });
+	} else {
+		// Cada palabra pasa del tono apagado al color pleno, una tras otra, al cruzar la línea de activación.
+		gsap.to(words, {
+			opacity: 1,
+			ease: 'power2.out',
+			stagger: 0.5,
+			scrollTrigger: { trigger: tagline, start: 'top 80%', end: 'bottom 45%', scrub: 0.4 },
+		});
+	}
+</script>

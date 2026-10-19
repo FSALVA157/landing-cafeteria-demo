@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
+
+// TODO: redactar los textos legales reales antes de publicar.
+export function getStaticPaths() {
+	return [
+		{ params: { legal: 'legal' }, props: { title: 'Aviso legal' } },
+		{ params: { legal: 'privacidad' }, props: { title: 'Política de privacidad' } },
+		{ params: { legal: 'cookies' }, props: { title: 'Política de cookies' } },
+	];
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={`${title} · Café Julia`} noindex>
+	<main id="contenido" class="mx-auto max-w-2xl px-4 py-24">
+		<a href="/" class="rounded-full text-cocoa" aria-label="Café Julia, ir al inicio"><Logo /></a>
+		<h1 class="mt-16 text-4xl">{title}</h1>
+		<p class="mt-6 text-lg text-cocoa-soft">
+			Este texto está pendiente de redacción. Café Julia es por ahora un sitio de demostración y esta web no usa
+			cookies de seguimiento.
+		</p>
+		<a href="/" class="btn-ghost mt-8"><Icon name="arrowRight" class="size-4 rotate-180" />Volver al inicio</a>
+	</main>
+</Layout>

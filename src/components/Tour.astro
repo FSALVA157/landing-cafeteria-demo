@@ -1,0 +1,227 @@
+---
+import { Picture } from 'astro:assets';
+import cafe1 from '../assets/photos/cafe_1.webp';
+import cafe3 from '../assets/photos/cafe_3.webp';
+import cafe5 from '../assets/photos/cafe_5.webp';
+import cafe6 from '../assets/photos/cafe_6.webp';
+import cafe8 from '../assets/photos/cafe_8.webp';
+
+// Una parada por foto del recorrido; el vídeo pasa por cada una cada 5 s.
+const stops = [
+	{
+		title: 'Entra sin reservar',
+		text: 'Banqueta corrida de terciopelo y mesas de mármol. Elige sitio y pide en barra cuando quieras.',
+		photo: cafe1,
+		alt: 'Banqueta de terciopelo teja con mesas redondas de mármol y una fila de vasos iluminados en la pared',
+	},
+	{
+		title: 'Un sofá para la segunda taza',
+		text: 'Rincones bajos, almohadones a rayas y lámparas pequeñas. Aquí la sobremesa se alarga.',
+		photo: cafe3,
+		alt: 'Sofá de terciopelo naranja con almohadón a rayas junto a una lámpara de mesa encendida',
+	},
+	{
+		title: 'La barra',
+		text: 'Mármol, molinos y la estantería con el grano que servimos. Pregunta qué hay esta semana y te lo contamos.',
+		photo: cafe5,
+		alt: 'Barista preparando café en una barra de mármol con vitrina de pastelería y bolsas de café en la estantería',
+	},
+	{
+		title: 'Luz de ventanal',
+		text: 'Mesas altas junto al olivo, con enchufes y buena luz para trabajar o leer sin mirar el reloj.',
+		photo: cafe6,
+		alt: 'Olivo en el centro de una mesa junto a un ventanal, rodeado de sillas de bouclé blanco',
+	},
+	{
+		title: 'Sin prisa',
+		text: 'Al fondo, bajo las lámparas color teja, siempre queda un sillón para terminar el café con calma.',
+		photo: cafe8,
+		alt: 'Mujer tomando un café en un rincón con sillones de terciopelo y dos lámparas colgantes color teja',
+	},
+];
+---
+
+<section id="lugar" aria-labelledby="lugar-titulo" class="relative bg-night">
+	<div class="px-4 pt-24 pb-16 text-cream md:px-8">
+		<div class="mx-auto max-w-6xl">
+			<p class="text-sm font-semibold tracking-wide text-sand uppercase" data-reveal>El lugar</p>
+			<h2 id="lugar-titulo" class="mt-4 max-w-[680px] text-4xl md:text-5xl" data-reveal>Un paseo por Café Julia</h2>
+			<p class="mt-4 max-w-xl text-lg text-cream/80" data-reveal>
+				Sigue bajando y recorre el local de la entrada al último rincón.
+			</p>
+		</div>
+	</div>
+
+	<div class="tour grid" data-tour>
+		<div class="tour-stage sticky top-0 h-svh overflow-hidden" aria-hidden="true">
+			<div class="tour-frame">
+			<video
+				data-tour-video
+				class="size-full object-cover"
+				muted
+				playsinline
+				preload="none"
+				poster="/video/cafe-walk-poster.webp"
+				data-src-desktop="/video/cafe-walk-scrub.mp4"
+				data-src-mobile="/video/cafe-walk.mp4"></video>
+			</div>
+			<div class="absolute inset-x-0 bottom-0 hidden justify-center gap-2 pb-6 md:flex" data-tour-dots>
+				{stops.map(() => <span class="h-1 w-6 rounded-full bg-cream/40 transition-all duration-700 ease-fluid" />)}
+			</div>
+		</div>
+
+		<ol class="tour-stops relative">
+			{
+				stops.map((stop, i) => (
+					<li class="tour-stop flex px-4 md:px-8" data-tour-stop>
+						<div class="mx-auto flex w-full max-w-6xl">
+							<article class="tour-card w-full max-w-sm rounded-3xl bg-cream/95 p-6 text-cocoa shadow-xl shadow-night/20 backdrop-blur-xl md:p-8">
+								<Picture
+									src={stop.photo}
+									alt={stop.alt}
+									widths={[400, 800]}
+									sizes="(min-width: 768px) 384px, 100vw"
+									formats={['avif', 'webp']}
+									class="tour-photo arch mb-6 aspect-[3/4] w-full object-cover"
+									loading="lazy"
+								/>
+								<p class="text-sm font-semibold text-terra">
+									{String(i + 1).padStart(2, '0')} / {String(stops.length).padStart(2, '0')}
+								</p>
+								<h3 class="mt-2 text-2xl md:text-3xl">{stop.title}</h3>
+								<p class="mt-2 text-base text-cocoa-soft md:mt-4">{stop.text}</p>
+							</article>
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>
+
+<style>
+	.tour > * {
+		grid-area: 1 / 1;
+	}
+	.tour-stop {
+		height: 100svh;
+		align-items: flex-end;
+		padding-bottom: 3rem;
+	}
+	/* En móvil el vídeo horizontal va en un arco 4:5 para no ampliarlo de más. */
+	.tour-frame {
+		position: absolute;
+		inset-inline: 1rem;
+		top: 6rem;
+		aspect-ratio: 4 / 5;
+		max-height: calc(100svh - 12rem);
+		margin-inline: auto;
+		border-radius: 999px 999px 0 0;
+		overflow: hidden;
+	}
+	/* La foto solo aparece si no hay vídeo (movimiento reducido o sin JS). */
+	.tour-photo {
+		display: none;
+	}
+	@media (min-width: 768px) {
+		.tour-stop {
+			align-items: center;
+			padding-bottom: 0;
+		}
+		.tour-frame {
+			inset: 0;
+			aspect-ratio: auto;
+			max-height: none;
+			border-radius: 0;
+		}
+	}
+
+	:global(html:not(.js)) .tour-stage,
+	.tour.is-static .tour-stage {
+		display: none;
+	}
+	:global(html:not(.js)) .tour-stop,
+	.tour.is-static .tour-stop {
+		height: auto;
+		padding-block: 1.5rem;
+	}
+	:global(html:not(.js)) .tour-stop :global(.tour-photo),
+	.tour.is-static .tour-stop :global(.tour-photo) {
+		display: block;
+	}
+	.tour.is-static .tour-stops {
+		padding-bottom: 4rem;
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { reducedMotion } from '../scripts/motion';
+
+	const tour = document.querySelector<HTMLElement>('[data-tour]')!;
+	const video = tour.querySelector<HTMLVideoElement>('[data-tour-video]')!;
+	const dots = [...tour.querySelectorAll<HTMLElement>('[data-tour-dots] > span')];
+	const stops = tour.querySelectorAll<HTMLElement>('[data-tour-stop]');
+
+	if (reducedMotion) {
+		tour.classList.add('is-static');
+	} else {
+		// En móvil se reutiliza el vídeo del hero (más liviano y ya en caché).
+		const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+		video.src = (isDesktop ? video.dataset.srcDesktop : video.dataset.srcMobile)!;
+
+		// Empezar a cargar el vídeo un poco antes de llegar a la sección.
+		new IntersectionObserver(
+			([entry], observer) => {
+				if (!entry.isIntersecting) return;
+				video.preload = 'auto';
+				video.load();
+				// iOS solo permite buscar cuadros después de una reproducción.
+				video.play().then(() => video.pause()).catch(() => {});
+				observer.disconnect();
+			},
+			{ rootMargin: '100% 0px' },
+		).observe(tour);
+
+		const setActiveDot = (index: number) => {
+			dots.forEach((dot, i) => {
+				dot.classList.toggle('bg-cream', i === index);
+				dot.classList.toggle('w-12', i === index);
+				dot.classList.toggle('bg-cream/40', i !== index);
+				dot.classList.toggle('w-6', i !== index);
+			});
+		};
+		setActiveDot(0);
+
+		// La parada i queda centrada cuando el vídeo está en el segundo 5·i.
+		const playhead = { time: 0 };
+		gsap.to(playhead, {
+			time: 1,
+			ease: 'none',
+			scrollTrigger: { trigger: tour, start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+			onUpdate: () => {
+				if (!video.duration) return;
+				video.currentTime = playhead.time * (video.duration - 0.05);
+				setActiveDot(Math.round(playhead.time * (stops.length - 1)));
+			},
+		});
+
+		stops.forEach((stop) => {
+			const card = stop.querySelector('.tour-card');
+			gsap.fromTo(
+				card,
+				{ opacity: 0, y: 64, filter: 'blur(12px)' },
+				{
+					opacity: 1,
+					y: 0,
+					filter: 'blur(0px)',
+					ease: 'power3.out',
+					scrollTrigger: { trigger: stop, start: 'top 75%', end: 'top 35%', scrub: true },
+				},
+			);
+		});
+
+		ScrollTrigger.refresh();
+	}
+</script>

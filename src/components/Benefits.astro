@@ -1,0 +1,50 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import cafe4 from '../assets/photos/cafe_4.webp';
+
+const benefits = [
+	{ icon: 'coffee', title: 'Cada semana, otro origen.', text: 'El filtrado cambia cada semana, así que siempre hay un café que no has probado.' },
+	{ icon: 'chatCircle', title: 'Te lo explicamos sin pose.', text: 'Pregunta en barra cómo se prepara cada taza. Nadie te mira raro por pedir un latte.' },
+	{ icon: 'laptop', title: 'Quédate a trabajar.', text: 'Mesas junto al ventanal, enchufes y sin límite de tiempo entre semana.' },
+	{ icon: 'drop', title: 'Leche vegetal sin coste extra.', text: 'Avena o almendra en cualquier bebida, y también leche sin lactosa.' },
+	{ icon: 'coffeeBean', title: 'Llévate el grano.', text: 'El mismo café de la barra, en grano o molido para tu cafetera.' },
+] as const;
+---
+
+<section aria-labelledby="beneficios-titulo" class="px-4 py-24 md:px-8">
+	<div class="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 lg:gap-24">
+		<div class="arch mx-auto w-full max-w-sm md:order-2 md:max-w-none" data-reveal>
+			<Picture
+				src={cafe4}
+				alt="Vista desde arriba de un sillón de terciopelo en arco, una mesa de vidrio ondulado y una lámpara sobre suelo de terrazo"
+				widths={[480, 900]}
+				sizes="(min-width: 768px) 50vw, 384px"
+				formats={['avif', 'webp']}
+				class="aspect-[3/4] w-full object-cover"
+				loading="lazy"
+			/>
+		</div>
+
+		<div>
+			<p class="eyebrow" data-reveal>Por qué venir</p>
+			<h2 id="beneficios-titulo" class="mt-4 max-w-[680px] text-4xl md:text-5xl" data-reveal>
+				Café de verdad, en un sitio donde apetece quedarse
+			</h2>
+			<ul class="mt-12 flex flex-col gap-8">
+				{
+					benefits.map((benefit, i) => (
+						<li class="flex gap-4" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+							<span class="grid size-10 shrink-0 place-items-center rounded-full bg-plaster text-terra">
+								<Icon name={benefit.icon} />
+							</span>
+							<p class="text-base text-cocoa-soft">
+								<strong class="font-semibold text-cocoa">{benefit.title}</strong> {benefit.text}
+							</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>

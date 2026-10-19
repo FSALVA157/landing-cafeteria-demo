@@ -1,11 +1,70 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Tour from '../components/Tour.astro';
+import Tagline from '../components/Tagline.astro';
+import Benefits from '../components/Benefits.astro';
+import Menu from '../components/Menu.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Beans from '../components/Beans.astro';
+import Faq from '../components/Faq.astro';
+import Visit from '../components/Visit.astro';
+import Footer from '../components/Footer.astro';
+import { contact, faq, links, site } from '../data/site';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const structuredData = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'CafeOrCoffeeShop',
+		name: site.name,
+		description: site.description,
+		url: Astro.site?.href,
+		image: new URL('/og.jpg', Astro.site).href,
+		telephone: contact.phone,
+		servesCuisine: 'Café de especialidad',
+		priceRange: '€',
+		acceptsReservations: false,
+		sameAs: [links.instagram],
+		address: {
+			'@type': 'PostalAddress',
+			streetAddress: contact.street,
+			postalCode: contact.postalCode,
+			addressLocality: contact.city,
+			addressCountry: 'ES',
+		},
+		openingHoursSpecification: contact.hours.map((h) => ({
+			'@type': 'OpeningHoursSpecification',
+			dayOfWeek: h.schema,
+			opens: h.opens,
+			closes: h.closes,
+		})),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: faq.map((item) => ({
+			'@type': 'Question',
+			name: item.q,
+			acceptedAnswer: { '@type': 'Answer', text: item.a },
+		})),
+	},
+];
 ---
 
 <Layout>
-	<Welcome />
+	<script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+	<Header />
+	<main id="contenido">
+		<Hero />
+		<Tour />
+		<Tagline />
+		<Benefits />
+		<Menu />
+		<HowItWorks />
+		<Beans />
+		<Faq />
+		<Visit />
+	</main>
+	<Footer />
 </Layout>

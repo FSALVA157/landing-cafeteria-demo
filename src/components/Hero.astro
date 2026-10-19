@@ -1,0 +1,85 @@
+---
+import Icon from './Icon.astro';
+import { links } from '../data/site';
+---
+
+<section id="inicio" class="px-4 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
+	<div class="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 lg:gap-16">
+		<div>
+			<p class="eyebrow" data-reveal>Café de especialidad en Madrid</p>
+			<h1 class="hero-heading mt-4 max-w-[680px] text-4xl sm:text-5xl md:text-4xl lg:text-5xl" data-reveal style="--reveal-delay: 100ms">
+				Café de especialidad,<br />sin prisa.
+			</h1>
+			<p class="mt-6 max-w-[680px] text-lg text-cocoa-soft" data-reveal style="--reveal-delay: 200ms">
+				Granos tostados en pequeños lotes y preparados con calma en una barra de mármol. Ven a tomarlo aquí, entre
+				terciopelo, terrazo y luz cálida.
+			</p>
+			<div class="mt-8 flex flex-wrap items-center gap-6" data-reveal style="--reveal-delay: 300ms">
+				<a href={links.directions} target="_blank" rel="noopener" class="btn-primary">
+					<Icon name="mapPin" />
+					Cómo llegar
+				</a>
+				<a
+					href="#menu"
+					class="inline-flex items-center gap-2 rounded-full text-base font-semibold text-cocoa underline decoration-cocoa/30 underline-offset-4 transition-colors duration-500 ease-fluid hover:decoration-cocoa"
+				>
+					Ver el menú
+					<Icon name="arrowRight" class="size-4" />
+				</a>
+			</div>
+			<ul class="mt-12 flex flex-wrap gap-x-6 gap-y-2 text-sm text-cocoa-soft" data-reveal style="--reveal-delay: 400ms">
+				<li class="flex items-center gap-2"><Icon name="storefront" class="size-4 text-terra" />Sin reserva</li>
+				<li class="flex items-center gap-2"><Icon name="clock" class="size-4 text-terra" />Todos los días desde las 8:00</li>
+				<li class="flex items-center gap-2"><Icon name="coffee" class="size-4 text-terra" />Un origen nuevo cada semana</li>
+			</ul>
+		</div>
+
+		<div class="arch relative mx-auto aspect-[4/5] w-full max-w-md bg-plaster md:max-w-none" data-reveal style="--reveal-delay: 200ms">
+			<img
+				src="/video/cafe-walk-poster.webp"
+				alt=""
+				class="absolute inset-0 size-full object-cover"
+				width="1280"
+				height="720"
+				fetchpriority="high"
+			/>
+			<video
+				data-hero-video
+				class="absolute inset-0 size-full object-cover transition-opacity duration-700 ease-fluid"
+				muted
+				loop
+				playsinline
+				preload="metadata"
+				poster="/video/cafe-walk-poster.webp"
+				aria-hidden="true"
+			>
+				<source src="/video/cafe-walk.webm" type="video/webm" />
+				<source src="/video/cafe-walk.mp4" type="video/mp4" />
+			</video>
+		</div>
+	</div>
+</section>
+
+<script>
+	import { reducedMotion } from '../scripts/motion';
+
+	const video = document.querySelector<HTMLVideoElement>('[data-hero-video]')!;
+
+	if (!reducedMotion) {
+		video.play().catch(() => {});
+
+		// El último cuadro no coincide con el primero: fundido al poster (primer cuadro) antes del corte.
+		video.addEventListener('timeupdate', () => {
+			if (!video.duration) return;
+			const nearEnd = video.currentTime > video.duration - 0.8;
+			const nearStart = video.currentTime < 0.4;
+			video.style.opacity = nearEnd || nearStart ? '0' : '1';
+		});
+
+		// No gastar batería con el vídeo fuera de pantalla.
+		new IntersectionObserver(([entry]) => {
+			if (entry.isIntersecting) video.play().catch(() => {});
+			else video.pause();
+		}).observe(video);
+	}
+</script>

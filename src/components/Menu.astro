@@ -1,0 +1,50 @@
+---
+import { Picture } from 'astro:assets';
+import cafe2 from '../assets/photos/cafe_2.webp';
+import { menu } from '../data/site';
+---
+
+<section id="menu" aria-labelledby="menu-titulo" class="bg-plaster px-4 py-24 md:px-8">
+	<div class="mx-auto max-w-6xl">
+		<div class="grid items-end gap-12 md:grid-cols-[1fr_auto]">
+			<div>
+				<p class="eyebrow" data-reveal>Menú</p>
+				<h2 id="menu-titulo" class="mt-4 max-w-[680px] text-4xl md:text-5xl" data-reveal>Lo que servimos en barra</h2>
+				<p class="mt-4 max-w-xl text-lg text-cocoa-soft" data-reveal>
+					Bebida vegetal sin coste extra en cualquier café. Precios con IVA incluido.
+				</p>
+			</div>
+			<div class="arch hidden w-48 md:block" data-reveal>
+				<Picture
+					src={cafe2}
+					alt="Sillones de terciopelo teja junto a mesas redondas verdes con borde dorado"
+					widths={[200, 400]}
+					sizes="192px"
+					formats={['avif', 'webp']}
+					class="aspect-[3/4] w-full object-cover"
+					loading="lazy"
+				/>
+			</div>
+		</div>
+
+		<div class="mt-16 grid gap-6 sm:grid-cols-2">
+			{
+				menu.map((group, i) => (
+					<article class="rounded-3xl bg-cream p-6 md:p-8" data-reveal style={`--reveal-delay: ${(i % 2) * 100}ms`}>
+						<h3 class="text-2xl">{group.title}</h3>
+						<p class="mt-2 text-sm text-cocoa-soft">{group.note}</p>
+						<dl class="mt-6 flex flex-col gap-3">
+							{group.items.map((item) => (
+								<div class="flex items-baseline gap-3">
+									<dt class="text-base">{item.name}</dt>
+									<span class="flex-1 border-b border-dotted border-cocoa/30" aria-hidden="true" />
+									<dd class="text-base font-semibold tabular-nums">{item.price} €</dd>
+								</div>
+							))}
+						</dl>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>

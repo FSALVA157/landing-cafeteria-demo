@@ -1,0 +1,33 @@
+---
+// Iconos de Phosphor (regular), insertados en línea para heredar currentColor.
+import armchair from '@phosphor-icons/core/assets/regular/armchair.svg?raw';
+import chatCircle from '@phosphor-icons/core/assets/regular/chat-circle.svg?raw';
+import coffeeBean from '@phosphor-icons/core/assets/regular/coffee-bean.svg?raw';
+import drop from '@phosphor-icons/core/assets/regular/drop.svg?raw';
+import laptop from '@phosphor-icons/core/assets/regular/laptop.svg?raw';
+import packageIcon from '@phosphor-icons/core/assets/regular/package.svg?raw';
+import arrowRight from '@phosphor-icons/core/assets/regular/arrow-right.svg?raw';
+import arrowUpRight from '@phosphor-icons/core/assets/regular/arrow-up-right.svg?raw';
+import clock from '@phosphor-icons/core/assets/regular/clock.svg?raw';
+import coffee from '@phosphor-icons/core/assets/regular/coffee.svg?raw';
+import instagram from '@phosphor-icons/core/assets/regular/instagram-logo.svg?raw';
+import leaf from '@phosphor-icons/core/assets/regular/leaf.svg?raw';
+import mapPin from '@phosphor-icons/core/assets/regular/map-pin.svg?raw';
+import phone from '@phosphor-icons/core/assets/regular/phone.svg?raw';
+import plug from '@phosphor-icons/core/assets/regular/plug.svg?raw';
+import plus from '@phosphor-icons/core/assets/regular/plus.svg?raw';
+import shoppingBag from '@phosphor-icons/core/assets/regular/shopping-bag.svg?raw';
+import storefront from '@phosphor-icons/core/assets/regular/storefront.svg?raw';
+
+const icons = { armchair, chatCircle, coffeeBean, drop, laptop, package: packageIcon, arrowRight, arrowUpRight, clock, coffee, instagram, leaf, mapPin, phone, plug, plus, shoppingBag, storefront };
+
+interface Props {
+	name: keyof typeof icons;
+	class?: string;
+}
+
+const { name, class: className = 'size-5' } = Astro.props;
+const svg = icons[name].replace('<svg ', `<svg class="${className} shrink-0" aria-hidden="true" focusable="false" `);
+---
+
+<Fragment set:html={svg} />

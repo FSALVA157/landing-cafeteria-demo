@@ -1,0 +1,35 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { links, nav } from '../data/site';
+
+const legal = [
+	{ label: 'Aviso legal', href: '/legal' },
+	{ label: 'Privacidad', href: '/privacidad' },
+	{ label: 'Cookies', href: '/cookies' },
+];
+---
+
+<footer class="bg-night px-4 pb-12 text-cream md:px-8">
+	<div class="mx-auto max-w-6xl border-t border-cream/15 pt-12">
+		<div class="flex flex-col justify-between gap-8 md:flex-row md:items-center">
+			<a href="/#inicio" class="w-max rounded-full" aria-label="Café Julia, ir al inicio"><Logo /></a>
+			<nav aria-label="Pie de página">
+				<ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-cream/80">
+					{nav.map((item) => <li><a href={`/${item.href}`} class="hover:text-cream">{item.label}</a></li>)}
+					<li>
+						<a href={links.instagram} target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-cream">
+							<Icon name="instagram" class="size-4" />Instagram
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="mt-12 flex flex-col justify-between gap-4 text-xs text-cream/60 md:flex-row">
+			<p>© {new Date().getFullYear()} Café Julia. Sitio de demostración.</p>
+			<ul class="flex flex-wrap gap-x-6 gap-y-2">
+				{legal.map((item) => <li><a href={item.href} class="hover:text-cream">{item.label}</a></li>)}
+			</ul>
+		</div>
+	</div>
+</footer>

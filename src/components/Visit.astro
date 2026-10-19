@@ -1,0 +1,60 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import cafe7 from '../assets/photos/cafe_7.webp';
+import { contact, links } from '../data/site';
+---
+
+<section id="visitanos" aria-labelledby="visitanos-titulo" class="bg-night px-4 py-24 text-cream md:px-8">
+	<div class="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 lg:gap-24">
+		<div>
+			<p class="text-sm font-semibold tracking-wide text-sand uppercase" data-reveal>Visítanos</p>
+			<h2 id="visitanos-titulo" class="mt-4 max-w-[680px] text-4xl md:text-5xl" data-reveal>
+				Te guardamos un sitio junto al ventanal
+			</h2>
+			<p class="mt-6 text-lg text-cream/80" data-reveal>Sin reserva. Pasa cuando quieras.</p>
+
+			<dl class="mt-12 grid gap-8 sm:grid-cols-2" data-reveal>
+				<div>
+					<dt class="flex items-center gap-2 text-sm font-semibold text-sand"><Icon name="mapPin" class="size-4" />Dirección</dt>
+					<dd class="mt-2 text-base">
+						<address class="not-italic">{contact.street}<br />{contact.postalCode} {contact.city}</address>
+					</dd>
+				</div>
+				<div>
+					<dt class="flex items-center gap-2 text-sm font-semibold text-sand"><Icon name="clock" class="size-4" />Horario</dt>
+					{contact.hours.map((h) => <dd class="mt-2 text-base">{h.days}<br /><span class="text-cream/80">{h.time}</span></dd>)}
+				</div>
+				<div>
+					<dt class="flex items-center gap-2 text-sm font-semibold text-sand"><Icon name="phone" class="size-4" />Teléfono</dt>
+					<dd class="mt-2 text-base">
+						<a href={contact.phoneHref} class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream">{contact.phone}</a>
+					</dd>
+				</div>
+				<div>
+					<dt class="flex items-center gap-2 text-sm font-semibold text-sand"><Icon name="instagram" class="size-4" />Instagram</dt>
+					<dd class="mt-2 text-base">
+						<a href={links.instagram} target="_blank" rel="noopener" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream">{links.instagramHandle}</a>
+					</dd>
+				</div>
+			</dl>
+
+			<a href={links.directions} target="_blank" rel="noopener" class="btn-primary mt-12" data-reveal>
+				<Icon name="mapPin" />
+				Cómo llegar
+			</a>
+		</div>
+
+		<div class="arch mx-auto w-full max-w-sm md:max-w-none" data-reveal>
+			<Picture
+				src={cafe7}
+				alt="Rincón junto a la ventana con banqueta, mesas de mármol y vista a los edificios de la calle"
+				widths={[480, 900]}
+				sizes="(min-width: 768px) 50vw, 384px"
+				formats={['avif', 'webp']}
+				class="aspect-[3/4] w-full object-cover"
+				loading="lazy"
+			/>
+		</div>
+	</div>
+</section>

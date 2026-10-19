@@ -1,0 +1,27 @@
+---
+const steps = [
+	{ title: 'Llega sin reservar', text: 'Elige mesa, sofá o barra. Si está lleno, en la barra siempre hay hueco para un espresso.' },
+	{ title: 'Pide en barra', text: 'Espresso, filtrado o algo sin café. Cuéntanos cómo te gusta y te recomendamos uno.' },
+	{ title: 'Quédate lo que quieras', text: 'Nadie te mete prisa. Y si te gustó el café, te llevas el grano a casa.' },
+];
+---
+
+<section aria-labelledby="pasos-titulo" class="px-4 py-24 md:px-8">
+	<div class="mx-auto max-w-6xl">
+		<p class="eyebrow" data-reveal>Cómo funciona</p>
+		<h2 id="pasos-titulo" class="mt-4 max-w-[680px] text-4xl md:text-5xl" data-reveal>Tres pasos, ninguno con prisa</h2>
+		<ol class="mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
+			{
+				steps.map((step, i) => (
+					<li data-reveal style={`--reveal-delay: ${i * 100}ms`}>
+						<span class="arch grid h-16 w-12 place-items-center bg-terra pt-2 font-serif text-2xl text-cream" aria-hidden="true">
+							{i + 1}
+						</span>
+						<h3 class="mt-6 text-2xl">{step.title}</h3>
+						<p class="mt-2 text-base text-cocoa-soft">{step.text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>

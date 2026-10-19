@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Layout title="Página no encontrada · Café Julia" noindex>
+	<main id="contenido" class="grid min-h-svh place-items-center px-4 py-24 text-center">
+		<div class="flex flex-col items-center">
+			<a href="/" class="rounded-full text-cocoa" aria-label="Café Julia, ir al inicio"><Logo /></a>
+			<p class="eyebrow mt-16">Error 404</p>
+			<h1 class="mt-4 max-w-[680px] text-5xl">Esta mesa no existe</h1>
+			<p class="mt-6 max-w-md text-lg text-cocoa-soft">
+				La página que buscas se ha movido o nunca estuvo aquí. Vuelve al inicio y te ponemos un café.
+			</p>
+			<a href="/" class="btn-primary mt-8"><Icon name="arrowRight" class="size-4 rotate-180" />Volver al inicio</a>
+		</div>
+	</main>
+</Layout>

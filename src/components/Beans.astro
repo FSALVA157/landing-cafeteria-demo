@@ -1,0 +1,38 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import cafe9 from '../assets/photos/cafe_9.webp';
+import { links } from '../data/site';
+---
+
+<section id="grano" aria-labelledby="grano-titulo" class="px-4 py-24 md:px-8">
+	<div class="mx-auto grid max-w-6xl items-center gap-12 rounded-3xl bg-night p-6 text-cream md:grid-cols-2 md:p-12 lg:gap-24">
+		<div class="arch w-full max-w-sm" data-reveal>
+			<Picture
+				src={cafe9}
+				alt="Mesas de acero brillante con lámparas de pétalos naranja frente a una cortina color arena"
+				widths={[400, 800]}
+				sizes="(min-width: 768px) 384px, 100vw"
+				formats={['avif', 'webp']}
+				class="aspect-[3/4] w-full object-cover"
+				loading="lazy"
+			/>
+		</div>
+		<div>
+			<p class="text-sm font-semibold tracking-wide text-sand uppercase" data-reveal>Grano para casa</p>
+			<h2 id="grano-titulo" class="mt-4 max-w-[680px] text-4xl md:text-5xl" data-reveal>El café de la barra, en tu cocina</h2>
+			<p class="mt-6 max-w-xl text-lg text-cream/80" data-reveal>
+				Bolsas del origen de la semana y del blend de la casa. Te lo molemos para tu cafetera, sea italiana, de filtro o
+				de émbolo.
+			</p>
+			<ul class="mt-8 flex flex-col gap-3 text-base text-cream/80" data-reveal>
+				<li class="flex items-center gap-3"><Icon name="storefront" class="size-5 text-sand" />Lo encuentras en la barra o en la tienda online</li>
+				<li class="flex items-center gap-3"><Icon name="package" class="size-5 text-sand" />En grano o molido, como prefieras</li>
+			</ul>
+			<a href={links.shop} target="_blank" rel="noopener" class="btn-light mt-12" data-reveal>
+				<Icon name="shoppingBag" />
+				Comprar café en grano
+			</a>
+		</div>
+	</div>
+</section>
